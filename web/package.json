@@ -5,14 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "export": "next build && next export",
+    "export": "next build && next export && touch ./out/.nojekyll",
     "start": "next start",
     "lint": "next lint",
     "types": "typechain --target ethers-v5 --out-dir './contracts/types' './contracts/*.json'",
     "postinstall": "npm run types",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "gh-pages": "gh-pages -d "
+    "gh-pages": "gh-pages -d out"
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.2",
@@ -49,6 +49,7 @@
     "@tailwindcss/forms": "^0.3.4",
     "@typechain/ethers-v5": "^7.2.0",
     "@types/react": "^17.0.29",
+    "@types/react-icons": "^3.0.0",
     "autoprefixer": "^10.3.7",
     "babel-loader": "^8.2.3",
     "eslint": "^7.32.0",

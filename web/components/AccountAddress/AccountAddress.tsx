@@ -3,6 +3,7 @@ import { formatEtherscanLink, shortenHex } from "../../lib/utils";
 
 export const AccountAddress = ({ address }) => {
   const { chainId } = useWeb3React();
+  if (!chainId) return null;
   return (
     <a
       href={formatEtherscanLink("Account", [chainId, address])}
