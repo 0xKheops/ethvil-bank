@@ -1,4 +1,3 @@
-import { formatEther } from "@ethersproject/units";
 import { BigNumberish } from "ethers";
 import { FC } from "react";
 import { useBidDetails as useBidDetails } from "../../hooks/useDepositDetails";

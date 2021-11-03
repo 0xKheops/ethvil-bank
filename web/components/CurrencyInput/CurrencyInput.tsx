@@ -1,10 +1,5 @@
 import clsx from "clsx";
-import {
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  forwardRef,
-  useEffect,
-} from "react";
+import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from "react";
 
 type CurrencyInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,

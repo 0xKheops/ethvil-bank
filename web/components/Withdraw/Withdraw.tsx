@@ -7,8 +7,7 @@ import { SectionTitle } from "../Section/SectionTitle";
 import { SectionContent } from "../Section/SectionContent";
 
 export const Withdraw: FC = () => {
-  const { loading, error, withdrawable, withdraw, withdrawing, withdraError } =
-    useWithdraw();
+  const { loading, error, withdrawable, withdraw, withdrawing } = useWithdraw();
 
   if (error) console.log(error);
 
