@@ -9,31 +9,34 @@ import { SectionContent } from "../Section/SectionContent";
 import { SectionTitle } from "../Section/SectionTitle";
 import { CurrentGameFinished } from "./CurrentGameFinished";
 import { Connected } from "../Connected/Connected";
+import { CurrentGameLoader } from "./CurrentGameLoader";
 
 type CurrentGameProps = {};
 
 export const CurrentGame: FC<CurrentGameProps> = () => {
   return (
     <CurrentGameProvider>
-      <Section>
-        <SectionTitle large>
-          <CurrentGameTitle />
-        </SectionTitle>
-        <SectionContent>
-          <CurrentGameInfo />
-        </SectionContent>
-        <CurrentGameFinished />
-        <SectionTitle>Become the new director</SectionTitle>
-        <SectionContent>
-          <Connected>
-            <CurrentGameBidForm />
-          </Connected>
-        </SectionContent>
-        <SectionTitle>Bids</SectionTitle>
-        <SectionContent>
-          <CurrentGameBids />
-        </SectionContent>
-      </Section>
+      <CurrentGameLoader>
+        <Section>
+          <SectionTitle large>
+            <CurrentGameTitle />
+          </SectionTitle>
+          <SectionContent>
+            <CurrentGameInfo />
+          </SectionContent>
+          <CurrentGameFinished />
+          <SectionTitle>Become the new director</SectionTitle>
+          <SectionContent>
+            <Connected>
+              <CurrentGameBidForm />
+            </Connected>
+          </SectionContent>
+          <SectionTitle>Bids</SectionTitle>
+          <SectionContent>
+            <CurrentGameBids />
+          </SectionContent>
+        </Section>
+      </CurrentGameLoader>
     </CurrentGameProvider>
   );
 };
