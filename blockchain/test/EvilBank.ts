@@ -173,7 +173,7 @@ describe("EvilBank", function () {
     expect(await ethers.provider.getBalance(fakeClient.address)).to.equal(
       parseEther("9")
     );
-    console.log("OK");
+
     await fakeClient.withdraw(evilBank.address);
     expect(await ethers.provider.getBalance(fakeClient.address)).to.equal(
       parseEther("10.05")

@@ -22,7 +22,7 @@ async function main() {
   const abiPath = path.resolve("../web/contracts/EvilBank.json");
   await fs.writeFileSync(abiPath, JSON.stringify(json.abi));
 
-  const envFilePath = path.resolve("../web/.env");
+  const envFilePath = path.resolve("../web/.env.local");
   const envContent = await fs.readFileSync(envFilePath, "utf-8");
   const newEnvContent = envContent.replace(
     /^NEXT_PUBLIC_EVILBANK_ADDRESS=(\w*?)$/gm,

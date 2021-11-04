@@ -1,12 +1,11 @@
 import Head from "next/head";
-import { Connected } from "../components/Connected/Connected";
 import { CurrentGame } from "../components/CurrentGame/CurrentGame";
 import { Explanations } from "../components/Explanations/Explanations";
 import { Header } from "../components/Header/Header";
-import { Withdraw } from "../components/Withdraw/Withdraw";
 import { GasPriceProvider } from "../lib/GasPriceContext";
 import { NetworkName } from "../components/NetworkName/NetworkName";
 import { Footer } from "../components/Footer/Footer";
+import { ConnectedInfura } from "../components/Connected/ConnectedInfura";
 
 function Home() {
   return (
@@ -22,12 +21,12 @@ function Home() {
         <main>
           <Explanations />
           <div className="my-4 space-y-8">
-            <Connected>
+            <ConnectedInfura>
               <GasPriceProvider>
                 <CurrentGame />
-                <Withdraw />
+                {/* <Withdraw /> */}
               </GasPriceProvider>
-            </Connected>
+            </ConnectedInfura>
           </div>
         </main>
       </div>

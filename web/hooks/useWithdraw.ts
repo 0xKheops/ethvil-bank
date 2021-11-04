@@ -3,7 +3,6 @@ import { useWeb3React } from "@web3-react/core";
 import { useCallback, useState } from "react";
 import useSWR from "swr";
 import { getErrorMessage } from "../lib/getErrorMessage";
-import useBlockRefresh from "./useBlockRefresh";
 import useEvilBankContract from "./useEvilBankContract";
 
 export const useWithdraw = () => {
@@ -20,8 +19,6 @@ export const useWithdraw = () => {
 
     return withdrawableAmount;
   });
-
-  useBlockRefresh(mutate);
 
   const [withdrawing, setWithdrawing] = useState(false);
   const [withdraError, setWithdrawError] = useState<string>();

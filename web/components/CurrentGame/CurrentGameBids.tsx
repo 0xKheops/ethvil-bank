@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { formatEtherHuman } from "../../lib/formatEtherHuman";
-import { shortenHex } from "../../lib/utils";
+import { EtherscanLink } from "../AccountAddress/EtherscanLink";
 import { useCurrentGame } from "./CurrentGameContext";
 
 export const CurrentGameBids: FC = () => {
@@ -13,7 +13,7 @@ export const CurrentGameBids: FC = () => {
     <table className="table-auto w-full text-left">
       <thead>
         <tr>
-          <th>Timestamp</th>
+          <th>Transaction</th>
           <th>Director</th>
           <th className="text-right">Bid</th>
         </tr>
@@ -22,9 +22,17 @@ export const CurrentGameBids: FC = () => {
         {events.map((ev) => {
           return (
             <tr key={ev.timestamp}>
-              <td>{new Date(ev.timestamp * 1000).toLocaleString()}</td>
+              <td>
+                <EtherscanLink type="Transaction" address={ev.transactionHash}>
+                  {new Date(ev.timestamp * 1000).toLocaleString()}
+                </EtherscanLink>
+              </td>
               <td className={ev.isCurrentAccount ? "text-green-500" : ""}>
-                {shortenHex(ev.director)}
+                <EtherscanLink
+                  type="Account"
+                  address={ev.director}
+                  color={ev.isCurrentAccount ? "green" : "white"}
+                />
               </td>
               <td className="text-right font-bold">
                 {formatEtherHuman(ev.bid)} ETH

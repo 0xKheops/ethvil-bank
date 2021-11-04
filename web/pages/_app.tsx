@@ -6,6 +6,8 @@ import { fetcher } from "../lib/fetcher";
 import "tailwindcss/tailwind.css";
 import bg from "../public/pexels-francesco-ungaro-97494.jpg";
 import { ETHPriceProvider } from "../lib/ETHPriceContext";
+import { Web3ReactProviderInfura } from "../lib/Web3ReactProviderInfura";
+import NoSsr from "../components/NoSsr/NoSsr";
 
 const backgroundStyles = {
   backgroundImage: `url(${bg.src})`,
@@ -19,13 +21,17 @@ function NextWeb3App({ Component, pageProps }: AppProps) {
         style={backgroundStyles}
       ></div>
       <div>
-        <SWRConfig value={{ fetcher }}>
-          <ETHPriceProvider>
-            <Web3ReactProvider getLibrary={getLibrary}>
-              <Component {...pageProps} />
-            </Web3ReactProvider>
-          </ETHPriceProvider>
-        </SWRConfig>
+        <NoSsr>
+          <SWRConfig value={{ fetcher }}>
+            <ETHPriceProvider>
+              <Web3ReactProvider getLibrary={getLibrary}>
+                <Web3ReactProviderInfura>
+                  <Component {...pageProps} />
+                </Web3ReactProviderInfura>
+              </Web3ReactProvider>
+            </ETHPriceProvider>
+          </SWRConfig>
+        </NoSsr>
       </div>
     </>
   );

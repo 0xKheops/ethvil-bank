@@ -1,17 +1,15 @@
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
-import { BigNumberish } from "ethers";
 import useSWR from "swr";
-import useBlockRefresh from "./useBlockRefresh";
 
 export const useGasPriceProvider = () => {
   const { library, chainId } = useWeb3React<Web3Provider>();
 
-  const { data, error, mutate } = useSWR(["GasPrice", chainId], () =>
-    library.getGasPrice()
+  const { data, error } = useSWR(
+    ["GasPrice", chainId],
+    () => library.getGasPrice(),
+    { refreshInterval: 60000 }
   );
-
-  useBlockRefresh(mutate);
 
   return {
     loading: !data && !error,

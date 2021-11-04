@@ -1,7 +1,6 @@
 import type { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import useSWR from "swr";
-import useBlockRefresh from "./useBlockRefresh";
 
 function getETHBalance(library: Web3Provider) {
   return async (_: string, address: string) => {
@@ -24,7 +23,7 @@ export default function useETHBalance(address: string, suspense = false) {
     }
   );
 
-  useBlockRefresh(result.mutate);
+  // useBlockRefresh(result.mutate);
 
   return result;
 }

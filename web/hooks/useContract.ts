@@ -1,12 +1,14 @@
 import { Contract } from "@ethersproject/contracts";
+import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { useMemo } from "react";
 
 export default function useContract<T extends Contract = Contract>(
   address: string,
-  ABI: any
+  ABI: any,
+  key?: string
 ): T | null {
-  const { library, account, chainId } = useWeb3React();
+  const { library, account, chainId } = useWeb3React<Web3Provider>(key);
 
   return useMemo(() => {
     if (!address || !ABI || !library || !chainId) {
@@ -14,7 +16,11 @@ export default function useContract<T extends Contract = Contract>(
     }
 
     try {
-      return new Contract(address, ABI, library.getSigner(account));
+      return new Contract(
+        address,
+        ABI,
+        account ? library.getSigner(account) : library
+      );
     } catch (error) {
       console.error("Failed To Get Contract", error);
 

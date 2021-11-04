@@ -1,4 +1,4 @@
-import { AccountAddress } from "../AccountAddress/AccountAddress";
+import { EtherscanLink } from "../AccountAddress/EtherscanLink";
 
 export const Explanations = () => (
   <div className="text-left inline-block p-4">
@@ -8,13 +8,25 @@ export const Explanations = () => (
     >
       ETHvil Bank
     </h1>
-    <div className="my-4 text-yellow-500">
+    <div className="my-4 text-sm text-yellow-500">
       This application is a demo &amp; portfolio app, therefore it is only
-      connected to the Ropsten Test Network, for now.
+      connected to the Ropsten Test Network, for now. You may obtain free ETH
+      for this network from a{" "}
+      <a
+        className="underline hover:text-yellow-400"
+        href="https://duckduckgo.com/?q=ropsten+faucet"
+      >
+        Ropsten faucet
+      </a>
+      .
     </div>
     <div>
       Contract{" "}
-      <AccountAddress address={process.env.NEXT_PUBLIC_EVILBANK_ADDRESS} /> :
+      <EtherscanLink
+        type="Account"
+        address={process.env.NEXT_PUBLIC_EVILBANK_ADDRESS}
+      />{" "}
+      :
     </div>
     <ul className="list-disc pl-5">
       <li>

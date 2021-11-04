@@ -1,5 +1,6 @@
 import constate from "constate";
-import { useEvilBankEvents } from "../../hooks/useEvilBankEvents";
+import { useCallback } from "react";
+import { useEvilBankBids } from "../../hooks/useEvilBankBids";
 import { useEvilBankStatus } from "../../hooks/useEvilBankStatus";
 
 const useCurrentGameProvider = () => {
@@ -7,13 +8,18 @@ const useCurrentGameProvider = () => {
     status,
     loading: loadingStatus,
     error: errorStatus,
-    mutate,
-  } = useEvilBankStatus();
+    mutate: mutateStatus,
+  } = useEvilBankStatus("INFURA");
   const {
     events,
     loading: loadingEvents,
     error: errorEvents,
-  } = useEvilBankEvents(status?.gameId);
+    mutate: mutateBids,
+  } = useEvilBankBids(status?.gameId, "INFURA");
+
+  const mutate = useCallback(() => {
+    return Promise.all([mutateStatus(), mutateBids()]);
+  }, [mutateBids, mutateStatus]);
 
   const result = {
     ...status,
