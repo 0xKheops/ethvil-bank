@@ -6,7 +6,6 @@ import { useCurrentGame } from "./CurrentGameContext";
 export const CurrentGameBids: FC = () => {
   const { loading, error, events } = useCurrentGame();
   if (loading || error || !events) {
-    console.log("rendering nothing", { loading, error, events });
     return null;
   }
 

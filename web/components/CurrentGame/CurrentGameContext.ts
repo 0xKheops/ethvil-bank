@@ -23,10 +23,6 @@ const useCurrentGameProvider = () => {
     error: errorStatus || errorEvents,
   };
 
-  if (result.loading) {
-    console.log({ loadingStatus, loadingEvents });
-  }
-
   return result;
 };
 

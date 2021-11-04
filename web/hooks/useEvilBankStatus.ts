@@ -37,8 +37,6 @@ export const useEvilBankStatus = () => {
 
   useBlockRefresh(mutate);
 
-  console.log("status", { data });
-
   return {
     loading: !data && !error,
     error,

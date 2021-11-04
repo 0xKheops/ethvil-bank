@@ -6,7 +6,6 @@ import { useMemo } from "react";
 export const CurrentGameInfo = () => {
   const { gameId, endsAt, currentBid } = useCurrentGame();
   const { target, isFinished } = useMemo(() => {
-    console.log({ endsAt });
     const _target = endsAt ? new Date(endsAt.toNumber() * 1000) : null;
     return {
       target: _target,
