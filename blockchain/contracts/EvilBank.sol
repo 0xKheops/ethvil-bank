@@ -79,17 +79,18 @@ contract EvilBank is Ownable, ReentrancyGuard {
         if(!running || endsAt > block.timestamp)
             revert ToEarlyToEnd(endsAt);
 
-        uint directorReward = gameBalance;        
+        uint _directorReward = gameBalance;
+        uint _currentBid = currentBid;        
         gameBalance = 0;
         currentBid = 0;
         running = false;
 
-        (bool success,) = payable(director).call{value: directorReward}("");
+        (bool success,) = payable(director).call{value: _directorReward}("");
 
         if(!success) 
-            withdrawable[director] += directorReward; 
+            withdrawable[director] += _directorReward; 
         
-        emit GameEnd(gameId, currentBid, director);
+        emit GameEnd(gameId, _currentBid, director);
 
     }
 
