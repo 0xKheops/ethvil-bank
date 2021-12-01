@@ -7,6 +7,7 @@
     "dev": "hardhat node",
     "dev:graph": "hardhat node --hostname 0.0.0.0",
     "deploy": "hardhat run scripts/deployEvilBank.ts --network localhost",
+    "deploy:ropsten": "hardhat run scripts/deployEvilBank.ts --network ropsten",
     "test": "hardhat test",
     "test:watch": "hardhat watch test"
   },
