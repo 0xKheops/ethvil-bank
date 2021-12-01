@@ -20,6 +20,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap"
             rel="stylesheet"
           />
+          <link rel="icon" href="/ethvil-bank/favicon.ico" />
         </Head>
         <body>
           <Main />

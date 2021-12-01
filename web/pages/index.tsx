@@ -12,7 +12,6 @@ function Home() {
     <div className="min-h-screen flex flex-col">
       <Head>
         <title>ETHvil Bank</title>
-        <link rel="icon" href="/ethvil-bank/favicon.ico" />
       </Head>
       <Header>
         <NetworkName />
