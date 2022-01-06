@@ -1,7 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { UserRejectedRequestError } from "@web3-react/injected-connector";
 import { useEffect, useState } from "react";
-import { injected } from "../lib/connectors";
+import { injectedConnector } from "../lib/connectors";
 import useENSName from "../hooks/useENSName";
 import useMetaMaskOnboarding from "../hooks/useMetaMaskOnboarding";
 import { formatEtherscanLink, shortenHex } from "../lib/utils";
@@ -51,17 +51,19 @@ const Account = ({ triedToEagerConnect }: Props) => {
             onClick={() => {
               setConnecting(true);
 
-              activate(injected, undefined, true).catch((err) => {
-                // ignore the error if it's a user rejected request
-                if (error instanceof UserRejectedRequestError) {
+              activate(injectedConnector, undefined, true)
+                .catch((err) => {
+                  // ignore the error if it's a user rejected request
+                  if (!(error instanceof UserRejectedRequestError)) {
+                    setError(err);
+                  }
+                })
+                .finally(() => {
                   setConnecting(false);
-                } else {
-                  setError(err);
-                }
-              });
+                });
             }}
           >
-            {isMetaMaskInstalled ? "Connect to MetaMask" : "Connect to Wallet"}
+            {isMetaMaskInstalled ? "Connect MetaMask" : "Connect Wallet"}
           </Button>
         ) : (
           <Button color="green" onClick={startOnboarding}>
@@ -75,7 +77,7 @@ const Account = ({ triedToEagerConnect }: Props) => {
   return (
     <a
       {...{
-        href: formatEtherscanLink("Account", [chainId, account]),
+        href: formatEtherscanLink("Account", chainId, account),
         target: "_blank",
         rel: "noopener noreferrer",
       }}

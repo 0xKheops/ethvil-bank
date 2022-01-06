@@ -11,14 +11,17 @@ async function main() {
   const EvilBank = await ethers.getContractFactory("EvilBank");
   // get contract instance
   const evilBank = EvilBank.attach(
-    "0xA169867963e66823625f8D2bb7E3680aB6941C3A"
+    "0xC079d079c226d795f6587DDd20d993349d0841DD"
   );
 
   await evilBank.deployed();
 
   await evilBank.connect(process.env.PRIVATE_KEY as string);
 
-  const tx = await evilBank.setDuration(5 * 60); // 5 minutes
+  const tx = await evilBank.setDuration(5 * 60, {
+    gasPrice: 100,
+    gasLimit: 900000,
+  }); // 5 minutes
   console.log("waiting end of transation", tx.hash);
   await tx.wait();
 }

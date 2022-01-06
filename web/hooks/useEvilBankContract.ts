@@ -1,11 +1,9 @@
 import EvilBank_ABI from "../contracts/EvilBank.json";
 import { EvilBank } from "../contracts/types";
 import useContract from "./useContract";
+import { useNetwork } from "./useNetwork";
 
 export default function useEvilBankContract(key?: string) {
-  return useContract<EvilBank>(
-    process.env.NEXT_PUBLIC_EVILBANK_ADDRESS,
-    EvilBank_ABI,
-    key
-  );
+  const network = useNetwork();
+  return useContract<EvilBank>(network.contract, EvilBank_ABI, key);
 }

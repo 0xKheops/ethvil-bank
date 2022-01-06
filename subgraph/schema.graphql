@@ -1,0 +1,16 @@
+type Bid @entity {
+  id: ID!
+  game: Game! # parent relationship
+  amount: BigInt!
+  director: Bytes! # wallet address
+  timestamp: BigInt!
+}
+
+type Game @entity {
+  id: ID!
+  start: BigInt!
+  end: BigInt
+  highestBid: BigInt!
+  director: Bytes!
+  bids: [Bid!]! @derivedFrom(field: "game") # all childs
+}

@@ -37,15 +37,15 @@ export const useEvilBankStatus = (key?: string) => {
 
   // refreshes the status upon any event
   useEffect(() => {
-    const filter1 = evilBank.filters.Bid();
-    const filter3 = evilBank.filters.GameStart();
+    const filterBid = evilBank.filters.Bid();
+    const filterGameStart = evilBank.filters.GameStart();
     const handler = () => mutate();
 
-    evilBank.on(filter1, handler);
-    evilBank.on(filter3, handler);
+    evilBank.on(filterBid, handler);
+    evilBank.on(filterGameStart, handler);
     return () => {
-      evilBank.off(filter1, handler);
-      evilBank.off(filter3, handler);
+      evilBank.off(filterBid, handler);
+      evilBank.off(filterGameStart, handler);
     };
   }, [evilBank, mutate]);
 
