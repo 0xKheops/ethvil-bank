@@ -66,7 +66,6 @@ export const CurrentGameBidForm = () => {
 
   const [submitError, setSubmitError] = useState<string>();
   const onSubmit: SubmitHandler<BidFormData> = async (input) => {
-    console.time("submit");
     setSubmitError(undefined);
     setPending(true);
     try {
@@ -77,7 +76,6 @@ export const CurrentGameBidForm = () => {
       setSubmitError(getErrorMessage(err));
     }
     setPending(false);
-    console.timeEnd("submit");
   };
 
   const cannotSubmit = useMemo(

@@ -12,7 +12,7 @@ import { GameHistoryTitle } from "./GameHistoryTitle";
 export const GameHistory = () => {
   const router = useRouter();
   const gameId = useMemo(() => Number(router.query.id), [router.query.id]);
-  console.log({ gameId });
+
   return (
     <GameHistoryProvider id={gameId}>
       <GameHistoryLoader>

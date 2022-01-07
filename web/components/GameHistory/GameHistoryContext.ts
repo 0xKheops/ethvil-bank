@@ -57,8 +57,6 @@ const useGameHistoryProvider = ({ id }: Props) => {
     [data, error]
   );
 
-  console.log(id, game);
-
   return {
     loading,
     error,
