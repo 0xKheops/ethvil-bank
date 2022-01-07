@@ -4,6 +4,7 @@ import { FC, useMemo } from "react";
 import { AddressType, formatEtherscanLink, shortenHex } from "../../lib/utils";
 import JazzIcon, { jsNumberForAddress } from "react-jazzicon";
 import useENSName from "../../hooks/useENSName";
+import { Web3Provider } from "@ethersproject/providers";
 
 type EtherscanLinkProps = {
   address: string;
@@ -26,7 +27,7 @@ export const EtherscanLink: FC<EtherscanLinkProps> = ({
   withIcon,
   children,
 }) => {
-  const { chainId } = useWeb3React("INFURA");
+  const { chainId } = useWeb3React<Web3Provider>("INFURA");
 
   const ens = useENSName(address);
 
@@ -34,10 +35,12 @@ export const EtherscanLink: FC<EtherscanLinkProps> = ({
     () => formatEtherscanLink(type, chainId, address),
     [address, chainId, type]
   );
+
   const cn = useMemo(
     () => clsx(getClassName(color), className),
     [className, color]
   );
+
   const { seed, content } = useMemo(
     () => ({
       seed: jsNumberForAddress(address),
@@ -45,8 +48,9 @@ export const EtherscanLink: FC<EtherscanLinkProps> = ({
     }),
     [address, children, ens]
   );
-  console.log({ ens });
+
   if (!chainId) return null;
+
   return (
     <a href={href} target="_blank" rel="noopener noreferrer" className={cn}>
       {withIcon && (

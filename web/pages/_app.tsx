@@ -8,6 +8,8 @@ import bg from "../public/pexels-francesco-ungaro-97494.jpg";
 import { ETHPriceProvider } from "../lib/ETHPriceContext";
 import { Web3ReactProviderInfura } from "../lib/Web3ReactProviderInfura";
 import NoSsr from "../components/NoSsr/NoSsr";
+import { UserSettingsProvider } from "../lib/UserSettingsContext";
+import { WalletProvider } from "../lib/WalletContext";
 
 const backgroundStyles = {
   backgroundImage: `url(${bg.src})`,
@@ -22,15 +24,19 @@ function NextWeb3App({ Component, pageProps }: AppProps) {
       ></div>
       <div>
         <NoSsr>
-          <SWRConfig value={{ fetcher }}>
-            <ETHPriceProvider>
-              <Web3ReactProvider getLibrary={getLibrary}>
-                <Web3ReactProviderInfura>
-                  <Component {...pageProps} />
-                </Web3ReactProviderInfura>
-              </Web3ReactProvider>
-            </ETHPriceProvider>
-          </SWRConfig>
+          <UserSettingsProvider>
+            <SWRConfig value={{ fetcher }}>
+              <ETHPriceProvider>
+                <Web3ReactProvider getLibrary={getLibrary}>
+                  <Web3ReactProviderInfura>
+                    <WalletProvider>
+                      <Component {...pageProps} />
+                    </WalletProvider>
+                  </Web3ReactProviderInfura>
+                </Web3ReactProvider>
+              </ETHPriceProvider>
+            </SWRConfig>
+          </UserSettingsProvider>
         </NoSsr>
       </div>
     </>

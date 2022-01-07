@@ -9,7 +9,7 @@ import { SectionContent } from "../Section/SectionContent";
 export const Withdraw: FC = () => {
   const { loading, error, withdrawable, withdraw, withdrawing } = useWithdraw();
 
-  if (error) console.log(error);
+  if (error) console.error(error);
 
   if (loading || withdrawable.eq(0)) return null;
 

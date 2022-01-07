@@ -1,9 +1,7 @@
 import { FC } from "react";
-import useEagerConnect from "../../hooks/useEagerConnect";
-import Account from "../Account";
+import ConnectButton from "./ConnectButton";
 
 export const WalletDisconnectedAlert: FC = () => {
-  const triedToEagerConnect = useEagerConnect();
   return (
     <div className="text-center">
       <p className="p-4">
@@ -12,7 +10,7 @@ export const WalletDisconnectedAlert: FC = () => {
         Please connect your wallet, or install Metamask, to continue.
       </p>
       <div className="p-4">
-        <Account triedToEagerConnect={triedToEagerConnect} />
+        <ConnectButton />
       </div>
     </div>
   );

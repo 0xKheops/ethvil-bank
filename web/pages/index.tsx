@@ -6,10 +6,10 @@ import Layout from "../components/Layout/Layout";
 
 const Home = () => (
   <Layout title="ETHvil Bank">
-    <Explanations />
     <div className="my-4 space-y-8">
       <PublicBlockchainConnection>
         <GasPriceProvider>
+          <Explanations />
           <CurrentGame />
           {/* <Withdraw /> */}
         </GasPriceProvider>

@@ -38,5 +38,3 @@ export const networks = [
 ].filter(
   (n) => Boolean(n.contract) && Boolean(n.endpoint) && Boolean(n.subgraph)
 );
-
-console.log(networks);

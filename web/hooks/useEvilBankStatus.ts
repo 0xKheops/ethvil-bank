@@ -11,8 +11,7 @@ export const useEvilBankStatus = (key?: string) => {
   const { data, error, mutate } = useSWR(
     `Status${chainId}${account}`,
     async () => {
-      console.time("useEvilBankStatus");
-      const [gameId, director, currentBid, endsAt, running, minBid] =
+      const [gameId, director, currentBid, endsAt, running, minBid, duration] =
         await Promise.all([
           evilBank.gameId(),
           evilBank.director(),
@@ -20,17 +19,18 @@ export const useEvilBankStatus = (key?: string) => {
           evilBank.endsAt(),
           evilBank.running(),
           evilBank.minBid(),
+          evilBank.duration(),
         ]);
 
-      console.timeEnd("useEvilBankStatus");
-
       return {
+        address: evilBank.address,
         gameId,
         director,
         currentBid,
         endsAt,
         running,
         minBid,
+        duration,
       };
     }
   );

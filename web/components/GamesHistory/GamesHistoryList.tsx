@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { formatEtherHuman } from "../../lib/formatEtherHuman";
-import { EtherscanLink } from "../AccountAddress/EtherscanLink";
+import { EtherscanLink } from "../EtherscanLink/EtherscanLink";
 import { ConnectSpinner } from "../Spinner/ConnectSpinner";
 import { useGamesHistory } from "./GamesHistoryContext";
 

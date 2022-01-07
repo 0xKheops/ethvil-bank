@@ -1,9 +1,10 @@
+import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { useMemo } from "react";
 import { getNetworkFullname } from "../../lib/utils";
 
 export const NetworkName = () => {
-  const { chainId } = useWeb3React("INFURA");
+  const { chainId } = useWeb3React<Web3Provider>("INFURA");
 
   const networkName = useMemo(() => getNetworkFullname(chainId), [chainId]);
 

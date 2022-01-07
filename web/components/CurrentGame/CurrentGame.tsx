@@ -31,7 +31,7 @@ export const CurrentGame: FC<CurrentGameProps> = () => {
               <CurrentGameBidForm />
             </WalletBlockchainConnection>
           </SectionContent>
-          <SectionTitle>Bids</SectionTitle>
+          <SectionTitle>Deposits</SectionTitle>
           <SectionContent>
             <CurrentGameBids />
           </SectionContent>

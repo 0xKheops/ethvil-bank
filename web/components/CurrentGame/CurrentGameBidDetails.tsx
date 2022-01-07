@@ -18,7 +18,7 @@ export const CurrentGameBidDetails: FC<CurrentGameBidDetailsProps> = ({
       <table className="w-full table-auto font-bold text-left ">
         <tbody>
           <tr>
-            <td className="pr-2 font-normal">Bid</td>
+            <td className="pr-2 font-normal">Deposit</td>
             <td className="px-2 text-right w-40">{details.bidETH}</td>
             <td className="pl-2 text-right w-40 opacity-50">
               {details.bidUSD}

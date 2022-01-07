@@ -1,30 +1,32 @@
-import { useWeb3React } from "@web3-react/core";
 import useEagerConnect from "../../../hooks/useEagerConnect";
 import useETHBalance from "../../../hooks/useETHBalance";
 import { formatEtherHuman } from "../../../lib/formatEtherHuman";
-import Account from "../../Account";
-import { EtherscanLink } from "../../AccountAddress/EtherscanLink";
-
-const Connect = () => {
-  const triedToEagerConnect = useEagerConnect();
-  return (
-    <div className="text-center m-5">
-      <Account triedToEagerConnect={triedToEagerConnect} />
-    </div>
-  );
-};
+import { useWallet } from "../../../lib/WalletContext";
+import ConnectButton from "../../BlockchainConnection/ConnectButton";
+import { EtherscanLink } from "../../EtherscanLink/EtherscanLink";
+import { WrongChainAlert } from "../../BlockchainConnection/WrongChainAlert";
 
 export const WalletInfos = () => {
-  const { account } = useWeb3React();
+  useEagerConnect();
+  const { account, isWrongChain, isConnected } = useWallet();
   const { data } = useETHBalance(account);
 
-  if (!account)
+  if (isWrongChain)
+    return (
+      <div className="text-center m-5">
+        <WrongChainAlert />
+      </div>
+    );
+
+  if (!isConnected)
     return (
       <div>
         <div>Wallet : Not connected</div>
-        <Connect />
+        <ConnectButton />
       </div>
     );
+
+  if (!account) return null;
 
   return (
     <div>

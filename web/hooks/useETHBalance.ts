@@ -11,7 +11,7 @@ function getETHBalance(library: Web3Provider) {
 }
 
 export default function useETHBalance(address: string, suspense = false) {
-  const { library, chainId } = useWeb3React();
+  const { library, chainId } = useWeb3React<Web3Provider>();
 
   const shouldFetch = typeof address === "string" && !!library;
 

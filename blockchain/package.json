@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "hardhat node",
-    "dev:graph": "hardhat node --hostname 0.0.0.0",
+    "dev": "hardhat node --hostname 0.0.0.0",
     "deploy:local": "hardhat run scripts/deployEvilBank.ts --network localhost",
     "deploy:ropsten": "hardhat run scripts/deployEvilBank.ts --network ropsten",
     "deploy:goerli": "hardhat run scripts/deployEvilBank.ts --network goerli",

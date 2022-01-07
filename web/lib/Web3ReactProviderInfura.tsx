@@ -1,5 +1,5 @@
-import { createWeb3ReactRoot } from "@web3-react/core";
 import { FC } from "react";
+import { createWeb3ReactRoot } from "@web3-react/core";
 import getLibrary from "./getLibrary";
 
 // Used to query blockchain without wallet (raises error with SSR)
