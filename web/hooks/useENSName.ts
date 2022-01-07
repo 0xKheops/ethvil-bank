@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 
 export default function useENSName(address: string) {
-  const { library, chainId } = useWeb3React<Web3Provider>();
+  const { library, chainId } = useWeb3React<Web3Provider>("INFURA");
   const [ENSName, setENSName] = useState("");
 
   useEffect(() => {

@@ -32,6 +32,7 @@ export const CurrentGameBids: FC = () => {
                   type="Account"
                   address={ev.director}
                   color={ev.isCurrentAccount ? "green" : "white"}
+                  withIcon
                 />
               </td>
               <td className="text-right font-bold">

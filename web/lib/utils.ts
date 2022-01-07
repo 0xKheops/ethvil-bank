@@ -1,60 +1,33 @@
 import type { BigNumberish } from "@ethersproject/bignumber";
 import { formatUnits } from "@ethersproject/units";
+import { networks } from "./networks";
 
-export function shortenHex(hex: string, length = 4) {
-  return `${hex.substring(0, length + 2)}…${hex.substring(
-    hex.length - length
-  )}`;
-}
+export const shortenHex = (hex: string, length = 4) =>
+  `${hex.substring(0, length + 2)}…${hex.substring(hex.length - length)}`;
 
-const ETHERSCAN_PREFIXES = {
-  1: "",
-  3: "ropsten.",
-  4: "rinkeby.",
-  5: "goerli.",
-  42: "kovan.",
-  69: "kovan-optimistic.",
-};
-
-export const getNetworkName = (chainId: number) => {
+export const getNetworkShortname = (chainId: number) => {
   if (!chainId) return "";
-
-  switch (chainId) {
-    case 1:
-      return "Main Ethereum Network";
-    case 3:
-      return "Ropsten Test Network";
-    case 4:
-      return "Rinkeby Test Network";
-    case 5:
-      return "Goerli Test Network";
-    case 69:
-      return "Optimistic Kovan Test Network";
-    case 2018:
-      return "Dev Network";
-    case 1337:
-      return "DEV - Ganache";
-    case 31337:
-      return "DEV - Hardhat";
-    default:
-      return `UNKNOWN NETWORK (${chainId})`;
-  }
+  const network = networks.find((n) => n.chainId === chainId);
+  return network?.name ?? `UNKNOWN NETWORK (${chainId})`;
 };
+
+export const getNetworkFullname = (chainId: number) => {
+  if (!chainId) return "";
+  const network = networks.find((n) => n.chainId === chainId);
+  return network?.fullname ?? `UNKNOWN NETWORK (${chainId})`;
+};
+
+export type AddressType = "Account" | "Transaction";
 
 export function formatEtherscanLink(
-  type: "Account" | "Transaction",
-  data: [number, string]
+  type: AddressType,
+  chainId: number,
+  address: string
 ) {
-  switch (type) {
-    case "Account": {
-      const [chainId, address] = data;
-      return `https://${ETHERSCAN_PREFIXES[chainId]}etherscan.io/address/${address}`;
-    }
-    case "Transaction": {
-      const [chainId, hash] = data;
-      return `https://${ETHERSCAN_PREFIXES[chainId]}etherscan.io/tx/${hash}`;
-    }
-  }
+  const network = networks.find((n) => n.chainId === chainId);
+  const prefix = network?.etherscanPrefix ?? "";
+  const path = type === "Account" ? "address" : "tx";
+  return `https://${prefix}etherscan.io/${path}/${address}`;
 }
 
 export const parseBalance = (

@@ -7,8 +7,7 @@ import "hardhat/console.sol";
 
 contract EvilBank is Ownable, ReentrancyGuard {
     
-    //uint32 public duration = 1 weeks; //1 week = 3600 * 24 * 7 = 604800;
-    uint public duration = 1 minutes; //1 week = 3600 * 24 * 7 = 604800;
+    uint public duration = 1 minutes; 
     uint public minStartBid = 0.001 ether;
     uint public minBidIncreasePercent = 10;
     uint public directorRewardPercent = 5;

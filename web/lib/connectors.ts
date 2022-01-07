@@ -1,19 +1,16 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { NetworkConnector } from "@web3-react/network-connector";
+import { networks } from "./networks";
 
-export const supportedChainIds = [
-  3, //ropsten
-  31337, // local hardhat
-];
+const supportedChainIds = networks.map((n) => n.chainId);
 
-export const injected = new InjectedConnector({
-  supportedChainIds,
-});
+const urls = networks.reduce<Record<number, string>>(
+  (prev, curr) => ({ ...prev, [curr.chainId]: curr.endpoint }),
+  {}
+);
 
-export const infura = new NetworkConnector({
-  urls: {
-    3: `https://ropsten.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_PROJECT_ID}`,
-    31337: "http://localhost:8545",
-  },
-  defaultChainId: Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID),
-});
+const defaultChainId = Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID);
+
+export const injectedConnector = new InjectedConnector({ supportedChainIds });
+
+export const networkConnector = new NetworkConnector({ urls, defaultChainId });

@@ -31,7 +31,7 @@ export const CurrentGameInfo = () => {
         {isFinished && (
           <tr>
             <td colSpan={2} className="text-green-500 text-center">
-              This game beeing finished, next bid will start a new game !
+              Next deposit will start a new game !
             </td>
           </tr>
         )}

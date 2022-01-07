@@ -23,7 +23,5 @@ export default function useETHBalance(address: string, suspense = false) {
     }
   );
 
-  // useBlockRefresh(result.mutate);
-
   return result;
 }

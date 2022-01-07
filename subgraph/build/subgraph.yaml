@@ -1,0 +1,33 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: EvilBank
+    network: goerli
+    source:
+      address: "0xC079d079c226d795f6587DDd20d993349d0841DD"
+      abi: EvilBank
+      startBlock: 6154398
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Bid
+        - GameEnd
+        - GameStart
+        - OwnershipTransferred
+      abis:
+        - name: EvilBank
+          file: EvilBank/abis/EvilBank.json
+      eventHandlers:
+        - event: Bid(indexed uint256,uint256,address)
+          handler: handleBid
+        - event: GameEnd(indexed uint256,uint256,address)
+          handler: handleGameEnd
+        - event: GameStart(indexed uint256,uint256,address)
+          handler: handleGameStart
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: EvilBank/EvilBank.wasm

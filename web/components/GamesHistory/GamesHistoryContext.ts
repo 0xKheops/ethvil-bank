@@ -1,43 +1,65 @@
-import { Web3Provider } from "@ethersproject/providers";
-import { useWeb3React } from "@web3-react/core";
+import { request } from "graphql-request";
 import constate from "constate";
 import useSWR from "swr";
-import useEvilBankContract from "../../hooks/useEvilBankContract";
+import { useMemo } from "react";
+import { useNetwork } from "../../hooks/useNetwork";
+
+type ResponseBid = {
+  id: string;
+  director: string;
+  amount: string;
+  timestamp: string;
+};
+type ResponseGame = {
+  id: string;
+  start: string;
+  end: string;
+  bids: ResponseBid[];
+  director: string;
+};
 
 const useGamesHistoryProvider = () => {
-  const evilBank = useEvilBankContract("INFURA");
+  const { subgraph, chainId } = useNetwork();
 
-  const { chainId } = useWeb3React<Web3Provider>("INFURA");
   const {
-    data: games,
+    data = { games: [] },
     error,
     mutate,
-  } = useSWR(`gameends-${chainId}`, async () => {
-    console.time("useEvilBankGameEnds");
-    const filter = evilBank.filters.GameEnd();
-    const events = await evilBank.queryFilter(filter);
-    const result = (
-      await Promise.all(
-        events.map(async (e) => {
-          const { timestamp } = await e.getBlock();
-          const { gameId, director, amount } = e.args;
-          return {
-            gameId,
-            director,
-            amount,
-            timestamp,
-          };
-        })
-      )
-    ).sort((ev1, ev2) => ev2.timestamp - ev1.timestamp);
-    console.timeEnd("useEvilBankGameEnds");
-    return result;
-  });
+  } = useSWR<{ games: ResponseGame[] }>(`games-history-${chainId}`, () =>
+    request(
+      subgraph,
+      `{
+    games(orderBy:id, orderDirection:desc) {
+      id
+      start
+      end
+      director
+      bids(orderBy:timestamp, orderDirection:desc, first:1) {
+        id
+        amount
+        director
+        timestamp
+      }
+    }
+  }`
+    )
+  );
 
-  console.log({ error, games });
+  const { loading, games } = useMemo(
+    () => ({
+      loading: !data && !error,
+      games: data.games.map(({ id, director, end, bids }) => ({
+        id,
+        director,
+        end,
+        amount: bids[0].amount,
+      })),
+    }),
+    [data, error]
+  );
 
   return {
-    loading: !games && !error,
+    loading,
     error,
     games,
     mutate,
