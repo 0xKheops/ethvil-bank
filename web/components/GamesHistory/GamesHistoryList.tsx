@@ -35,7 +35,7 @@ export const GamesHistoryList = () => {
           <tr
             onClick={handleRowClick(id)}
             key={id}
-            className="cursor-pointer hover:bg-green-300/30"
+            className="cursor-pointer hover:bg-gray-600/80"
           >
             <td className="py-2 pl-4 text-left">{id}</td>
             <td className="py-2 text-right">

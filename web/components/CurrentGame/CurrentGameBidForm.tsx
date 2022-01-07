@@ -37,7 +37,8 @@ const getBidSchema = (minPayment: BigNumber): SchemaOf<BidFormData> =>
   });
 
 export const CurrentGameBidForm = () => {
-  const { minBid, mutate } = useCurrentGame();
+  const [pending, setPending] = useState(false);
+  const { minBid } = useCurrentGame();
   const evilBank = useEvilBankContract();
 
   const depositSchema = useMemo(() => getBidSchema(minBid), [minBid]);
@@ -66,19 +67,24 @@ export const CurrentGameBidForm = () => {
   const [submitError, setSubmitError] = useState<string>();
   const onSubmit: SubmitHandler<BidFormData> = async (input) => {
     setSubmitError(undefined);
+    setPending(true);
     try {
       const value = parseEther(input.bid);
       const tx = await evilBank.bid({ value });
       await tx.wait();
-      await mutate();
     } catch (err) {
       setSubmitError(getErrorMessage(err));
     }
+    setPending(false);
   };
 
   const cannotSubmit = useMemo(
-    () => isValidating || isSubmitting || !isValid,
-    [isSubmitting, isValid, isValidating]
+    () => isValidating || isSubmitting || !isValid || pending,
+    [isSubmitting, isValid, isValidating, pending]
+  );
+  const working = useMemo(
+    () => isSubmitting || pending,
+    [isSubmitting, pending]
   );
 
   const bid = watch("bid");
@@ -94,10 +100,11 @@ export const CurrentGameBidForm = () => {
             name="bid"
             autoComplete="off"
             className="flex-grow"
+            disabled={working}
             error={Boolean(errors.bid?.message)}
           />
           <ActionButton
-            working={isSubmitting}
+            working={working}
             color="green"
             type="submit"
             disabled={cannotSubmit}

@@ -3,6 +3,7 @@ import { Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { default as clsx } from "clsx";
 type DrawerProps = {
+  side?: "left" | "right";
   show?: boolean;
   onDismiss?: () => void;
   title?: string;
@@ -10,6 +11,7 @@ type DrawerProps = {
 
 export const Drawer: FC<DrawerProps> = ({
   show = false,
+  side = "right",
   children,
   title,
   onDismiss,
@@ -35,13 +37,16 @@ export const Drawer: FC<DrawerProps> = ({
       {/* Sliding sidebar */}
       <Transition.Child
         data-testid="sidepanel-panel"
-        className="z-50 max-w-full shadow-lg fixed top-0 right-0 h-screen bg-gray-900 flex flex-col w-full sm:w-96"
+        className={clsx(
+          "z-50 max-w-full shadow-lg fixed top-0 h-screen bg-gray-900 flex flex-col w-full sm:w-96",
+          side === "left" ? "left-0" : "right-0"
+        )}
         enter="transition ease-in-out duration-300 transform"
-        enterFrom="translate-x-full"
+        enterFrom={side === "left" ? "-translate-x-full" : "translate-x-full"}
         enterTo="translate-x-0"
         leave="transition ease-in-out duration-300 transform"
         leaveFrom="translate-x-0"
-        leaveTo="translate-x-full"
+        leaveTo={side === "left" ? "-translate-x-full" : "translate-x-full"}
       >
         <div className="flex w-full h-10 bg-red-900 text-white">
           <div className="flex-grow px-2 flex flex-col h-full justify-center">
