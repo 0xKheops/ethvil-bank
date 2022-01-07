@@ -17,7 +17,7 @@ export const CurrentGameInfo = () => {
     <table className="table-auto w-full text-left">
       <tbody>
         <tr>
-          <td>Current bid</td>
+          <td>Current deposit</td>
           <td className="text-right font-bold">
             {formatEtherHuman(currentBid)} ETH
           </td>

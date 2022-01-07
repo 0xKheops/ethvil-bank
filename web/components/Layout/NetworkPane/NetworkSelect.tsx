@@ -1,25 +1,18 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import { useWeb3React } from "@web3-react/core";
-import { NetworkConnector } from "@web3-react/network-connector";
 import { Fragment, useCallback } from "react";
 import { networks } from "../../../lib/networks";
+import { useUserSettings } from "../../../lib/UserSettingsContext";
 
 export const NetworkSelect = () => {
-  const { chainId: currentChainId, connector } = useWeb3React("INFURA");
+  const { chainId, setChainId } = useUserSettings();
 
-  const selectedNetwork = networks.find((n) => n.chainId === currentChainId);
+  const selectedNetwork = networks.find((n) => n.chainId === chainId);
 
-  const handleChange = useCallback(
-    (chainId) => {
-      const networkConnector = connector as NetworkConnector;
-      networkConnector.changeChainId(chainId);
-    },
-    [connector]
-  );
+  const handleChange = useCallback((id) => setChainId(id), [setChainId]);
 
   return (
-    <Listbox value={currentChainId} onChange={handleChange}>
+    <Listbox value={chainId} onChange={handleChange}>
       <div className="relative mt-1">
         <Listbox.Button className="z-0 relative w-full py-2 pl-3 pr-10 text-left bg-gray-700 text-white rounded shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm cursor-pointer">
           <span className="block truncate">{selectedNetwork.fullname}</span>
@@ -34,14 +27,14 @@ export const NetworkSelect = () => {
           leaveTo="opacity-0"
         >
           <Listbox.Options className="z-10 absolute w-full mt-1 overflow-auto text-base bg-gray-600 text-white rounded shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {networks.map(({ chainId, fullname }) => (
+            {networks.map(({ chainId: id, fullname }) => (
               <Listbox.Option
-                key={chainId}
+                key={id}
                 className={({ active }) =>
                   `${active ? "bg-gray-500" : "text-white"}
                           cursor-pointer select-none relative py-2 pl-10 pr-4`
                 }
-                value={chainId}
+                value={id}
               >
                 {({ selected }) => (
                   <>

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { formatEtherHuman } from "../../lib/formatEtherHuman";
-import { EtherscanLink } from "../AccountAddress/EtherscanLink";
+import { EtherscanLink } from "../EtherscanLink/EtherscanLink";
 import { useCurrentGame } from "./CurrentGameContext";
 
 export const CurrentGameBids: FC = () => {
@@ -15,7 +15,7 @@ export const CurrentGameBids: FC = () => {
         <tr>
           <th>Transaction</th>
           <th>Director</th>
-          <th className="text-right">Bid</th>
+          <th className="text-right">Deposit</th>
         </tr>
       </thead>
       <tbody>

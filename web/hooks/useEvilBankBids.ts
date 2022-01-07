@@ -13,7 +13,6 @@ export const useEvilBankBids = (gameId: BigNumber, key?: string) => {
   const { data, error, mutate } = useSWR(
     gameId ? `bids-${chainId}-${gameId?.toHexString()}` : null,
     async () => {
-      console.time("useEvilBankBids");
       const filter = evilBank.filters.Bid(gameId);
       const events = await evilBank.queryFilter(filter);
       const result = (
@@ -33,7 +32,6 @@ export const useEvilBankBids = (gameId: BigNumber, key?: string) => {
           })
         )
       ).sort((ev1, ev2) => ev2.timestamp - ev1.timestamp);
-      console.timeEnd("useEvilBankBids");
       return result;
     }
   );

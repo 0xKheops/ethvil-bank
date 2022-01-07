@@ -9,8 +9,9 @@ const urls = networks.reduce<Record<number, string>>(
   {}
 );
 
-const defaultChainId = Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID);
+const defaultChainId = Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID || 3);
 
 export const injectedConnector = new InjectedConnector({ supportedChainIds });
 
-export const networkConnector = new NetworkConnector({ urls, defaultChainId });
+export const getNetworkConnector = (chainId) =>
+  new NetworkConnector({ urls, defaultChainId: chainId ?? defaultChainId });
