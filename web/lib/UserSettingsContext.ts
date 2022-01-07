@@ -6,14 +6,14 @@ type UserSettings = {
   chainId: number;
 };
 
-const DEFAULT_VALUE: UserSettings = {
+const DEFAULT_SETTINGS: UserSettings = {
   chainId: Number(process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID),
 };
 
 const useUserSettingsContext = () => {
   const [settings, setSettings] = useLocalStorage<UserSettings>(
     "ethvilbank-chainId",
-    DEFAULT_VALUE
+    DEFAULT_SETTINGS
   );
 
   const { chainId } = useMemo(() => settings, [settings]);

@@ -54,7 +54,7 @@ export const EtherscanLink: FC<EtherscanLinkProps> = ({
   return (
     <a href={href} target="_blank" rel="noopener noreferrer" className={cn}>
       {withIcon && (
-        <span className="mr-1 align-middle">
+        <span className="mr-2 align-middle">
           <JazzIcon diameter={14} seed={seed} />
         </span>
       )}

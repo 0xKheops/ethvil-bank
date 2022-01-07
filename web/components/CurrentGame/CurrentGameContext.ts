@@ -18,7 +18,10 @@ const useCurrentGameProvider = () => {
   } = useEvilBankBids(status?.gameId, "INFURA");
 
   const mutate = useCallback(() => {
-    return Promise.all([mutateStatus(), mutateBids()]);
+    return Promise.all([
+      mutateStatus((prev) => prev, true),
+      mutateBids((prev) => prev, true),
+    ]);
   }, [mutateBids, mutateStatus]);
 
   const result = {

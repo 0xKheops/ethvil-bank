@@ -1,6 +1,6 @@
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import useEvilBankContract from "../../hooks/useEvilBankContract";
 import { getErrorMessage } from "../../lib/getErrorMessage";
 import { ActionButton } from "../Button/ActionButton";
@@ -11,7 +11,7 @@ import { useCurrentGame } from "./CurrentGameContext";
 export const CurrentGameFinished: FC = () => {
   const evilBank = useEvilBankContract();
   const { account } = useWeb3React<Web3Provider>();
-  const { running, endsAt, director } = useCurrentGame();
+  const { running, endsAt, director, mutate } = useCurrentGame();
 
   const [ending, setEnding] = useState(false);
   const [endError, setEndError] = useState<string>();
@@ -22,18 +22,29 @@ export const CurrentGameFinished: FC = () => {
     try {
       const tx = await evilBank.end();
       await tx.wait();
+      await mutate();
     } catch (err) {
       setEndError(getErrorMessage(err));
     }
     setEnding(false);
-  }, [evilBank]);
+  }, [evilBank, mutate]);
 
-  if (
-    account !== director ||
-    !running ||
-    endsAt?.toNumber() * 1000 > Date.now()
-  )
-    return null;
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      setShow(
+        account === director &&
+          running &&
+          endsAt?.toNumber() * 1000 < Date.now()
+      );
+    };
+    const interval = setInterval(check, 1000);
+
+    return () => clearInterval(interval);
+  });
+
+  if (!show) return null;
 
   return (
     <>

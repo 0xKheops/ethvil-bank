@@ -1,2 +1,3 @@
-export const getErrorMessage = (error: any) =>
-  error?.data?.message ?? error?.message ?? null;
+export const getErrorMessage = (error: any) => {
+  return error?.data?.message ?? error?.message ?? null;
+};
