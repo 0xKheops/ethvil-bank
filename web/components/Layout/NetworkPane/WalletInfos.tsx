@@ -21,8 +21,13 @@ export const WalletInfos = () => {
   if (!isConnected)
     return (
       <div>
-        <div>Wallet : Not connected</div>
-        <ConnectButton />
+        <div className="flex w-full justify-between">
+          <label>Wallet : </label>
+          <span>not connected</span>
+        </div>
+        <div className="text-center mt-4">
+          <ConnectButton />
+        </div>
       </div>
     );
 

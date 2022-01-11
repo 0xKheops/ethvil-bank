@@ -28,6 +28,8 @@ const useCurrentGameProvider = () => {
     ...status,
     mutate,
     events,
+    loadingStatus,
+    loadingEvents,
     loading: loadingStatus || loadingEvents,
     error: errorStatus || errorEvents,
   };

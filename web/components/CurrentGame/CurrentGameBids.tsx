@@ -1,10 +1,25 @@
 import { FC } from "react";
 import { formatEtherHuman } from "../../lib/formatEtherHuman";
+import { ButtonSpinner } from "../Button";
 import { EtherscanLink } from "../EtherscanLink/EtherscanLink";
 import { useCurrentGame } from "./CurrentGameContext";
 
+const BidsLoader = () => (
+  <div className="w-full text-center ">
+    <div className="inline-flex gap-2 text-yellow-500">
+      <span>
+        <ButtonSpinner />
+      </span>
+      <span>Loading...</span>
+    </div>
+  </div>
+);
+
 export const CurrentGameBids: FC = () => {
   const { loading, error, events } = useCurrentGame();
+
+  if (loading) return <BidsLoader />;
+
   if (loading || error || !events) {
     return null;
   }

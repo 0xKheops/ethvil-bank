@@ -8,7 +8,7 @@ import { Section } from "../Section/Section";
 import { SectionContent } from "../Section/SectionContent";
 import { SectionTitle } from "../Section/SectionTitle";
 import { CurrentGameFinished } from "./CurrentGameFinished";
-import { WalletBlockchainConnection } from "../BlockchainConnection/WalletBlockchainConnection";
+import { WithWalletConnected } from "../BlockchainConnection/WalletBlockchainConnection";
 import { CurrentGameLoader } from "./CurrentGameLoader";
 
 type CurrentGameProps = {};
@@ -27,9 +27,9 @@ export const CurrentGame: FC<CurrentGameProps> = () => {
           <CurrentGameFinished />
           <SectionTitle>Become the new director</SectionTitle>
           <SectionContent>
-            <WalletBlockchainConnection>
+            <WithWalletConnected>
               <CurrentGameBidForm />
-            </WalletBlockchainConnection>
+            </WithWalletConnected>
           </SectionContent>
           <SectionTitle>Deposits</SectionTitle>
           <SectionContent>
