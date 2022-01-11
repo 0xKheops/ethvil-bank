@@ -52,8 +52,10 @@ const useWalletContext = () => {
   );
 
   const isWrongChain = useMemo(
-    () => networkChainId && walletChainId && walletChainId != networkChainId,
-    [networkChainId, walletChainId]
+    () =>
+      isUnsupportedChain ||
+      (networkChainId && walletChainId && walletChainId != networkChainId),
+    [isUnsupportedChain, networkChainId, walletChainId]
   );
 
   const isConnected = useMemo(
@@ -65,13 +67,41 @@ const useWalletContext = () => {
     [account, isUnsupportedChain, isWrongChain, library]
   );
 
+  const connect = useCallback(async () => {
+    setConnecting(true);
+
+    try {
+      await activate(injectedConnector);
+    } catch (err) {
+      console.error("connect", err);
+      if (!(err instanceof UserRejectedRequestError)) {
+        setError(err);
+      }
+    } finally {
+      setConnecting(false);
+    }
+  }, [activate, setError]);
+
   const checkWalletChain = useCallback(async () => {
     try {
       if (isWrongChain) {
         setConnecting(true);
-        await library?.send("wallet_switchEthereumChain", [
-          { chainId: "0x" + networkChainId.toString(16) },
-        ]);
+        if (library)
+          await library?.send("wallet_switchEthereumChain", [
+            { chainId: "0x" + networkChainId.toString(16) },
+          ]);
+        else {
+          // hack to allow getting back from an unsupported network
+          const provider = window.ethereum as any;
+          await provider?.request({
+            method: "wallet_switchEthereumChain",
+            params: [
+              {
+                chainId: "0x" + networkChainId.toString(16),
+              },
+            ],
+          });
+        }
       }
     } catch (err) {
       console.error("connectToNetworkChain", err);
@@ -84,21 +114,6 @@ const useWalletContext = () => {
   useEffect(() => {
     checkWalletChain();
   }, [checkWalletChain]);
-
-  const connect = useCallback(() => {
-    setConnecting(true);
-
-    activate(injectedConnector, undefined, true)
-      .catch((err) => {
-        // ignore the error if it's a user rejected request
-        if (!(error instanceof UserRejectedRequestError)) {
-          setError(err);
-        }
-      })
-      .finally(() => {
-        setConnecting(false);
-      });
-  }, [activate, error, setError]);
 
   return {
     account,

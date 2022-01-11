@@ -13,6 +13,7 @@ export const CurrentGameInfo = () => {
     };
   }, [endsAt]);
   if (!gameId) return <>Loading...</>;
+
   return (
     <table className="table-auto w-full text-left">
       <tbody>

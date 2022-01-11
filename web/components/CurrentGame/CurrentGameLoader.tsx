@@ -4,9 +4,9 @@ import { useCurrentGame } from "./CurrentGameContext";
 
 export const CurrentGameLoader: FC = ({ children }) => {
   const network = useNetwork();
-  const { loading } = useCurrentGame();
+  const { loadingStatus } = useCurrentGame();
 
-  if (loading)
+  if (loadingStatus)
     return (
       <div className="text-center">
         <div

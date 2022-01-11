@@ -8,9 +8,11 @@ export const WrongChainAlert: FC = () => {
   return (
     <div className="p-4 text-center">
       <p className="mb-4">
-        Your wallet is connected but targets an invalid network (
-        {walletChainName}
-        ).
+        Your wallet seems to be connected but targets an invalid network
+        {walletChainName ? ` (${walletChainName})` : null}.
+      </p>
+      <p className="mb-4">
+        Please open Metamask and switch network to {networkChainName}
       </p>
       <Button color="green" onClick={checkWalletChain}>
         Switch to {networkChainName}

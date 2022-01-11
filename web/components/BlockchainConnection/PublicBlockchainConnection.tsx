@@ -1,12 +1,11 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { useWeb3React } from "@web3-react/core";
+import { createWeb3ReactRoot, useWeb3React } from "@web3-react/core";
 import { FC, useEffect, useMemo, useState } from "react";
 import { getNetworkConnector } from "../../lib/connectors";
+import getLibrary from "../../lib/getLibrary";
 import { useUserSettings } from "../../lib/UserSettingsContext";
-import { UnsupportedChainAlert } from "./UnsupportedChainAlert";
-import { WalletDisconnectedAlert } from "./WalletDisconnectedAlert";
 
-export const PublicBlockchainConnection: FC = ({ children }) => {
+const ConnectionCheck: FC = ({ children }) => {
   const [tried, setTried] = useState(false);
   const { chainId } = useUserSettings();
 
@@ -23,11 +22,6 @@ export const PublicBlockchainConnection: FC = ({ children }) => {
     [active, error, library]
   );
 
-  const unsupportedChain = useMemo(
-    () => error?.name === "UnsupportedChainIdError",
-    [error?.name]
-  );
-
   // initialize only once, then change chain using the changeChainId function
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const networkConnector = useMemo(() => getNetworkConnector(chainId), []);
@@ -39,7 +33,7 @@ export const PublicBlockchainConnection: FC = ({ children }) => {
         try {
           networkConnector.changeChainId(chainId);
         } catch (err) {
-          alert("fail");
+          alert("failed to change chain id");
         }
       }
     };
@@ -71,9 +65,20 @@ export const PublicBlockchainConnection: FC = ({ children }) => {
     return <div>Failed to connect to Ethereum node : {error.message}</div>;
   }
 
-  if (isConnected) return <>{children}</>;
+  return isConnected ? <>{children}</> : <div>Failed to connect</div>;
+};
 
-  if (unsupportedChain) return <UnsupportedChainAlert />;
+// Used to query blockchain without wallet (raises error with SSR)
+const Web3ReactProviderForInfura =
+  process.browser && createWeb3ReactRoot("INFURA");
 
-  return <WalletDisconnectedAlert />;
+export const PublicBlockchainConnection: FC = ({ children }) => {
+  return process.browser ? (
+    // @ ts-ignore
+    <Web3ReactProviderForInfura getLibrary={getLibrary}>
+      <ConnectionCheck>{children}</ConnectionCheck>
+    </Web3ReactProviderForInfura>
+  ) : (
+    <>{children}</>
+  );
 };

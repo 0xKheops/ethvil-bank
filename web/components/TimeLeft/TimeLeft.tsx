@@ -1,8 +1,5 @@
-import {
-  formatDuration,
-  intervalToDuration,
-} from "date-fns";
-import { FC, useState } from "react";
+import { formatDuration, intervalToDuration } from "date-fns";
+import { FC, useCallback, useEffect, useState } from "react";
 import useInterval from "../../hooks/useInterval";
 
 type TimeLeftProps = {
@@ -12,8 +9,9 @@ type TimeLeftProps = {
 export const TimeLeft: FC<TimeLeftProps> = ({ target }) => {
   const [timeLeft, setTimeLeft] = useState<string>();
 
-  useInterval(() => {
+  const computeTimeleft = useCallback(() => {
     const now = new Date();
+
     if (target.valueOf() < now.valueOf()) setTimeLeft("FINISHED");
     else {
       const interval = intervalToDuration({
@@ -22,7 +20,10 @@ export const TimeLeft: FC<TimeLeftProps> = ({ target }) => {
       });
       setTimeLeft(formatDuration(interval));
     }
-  }, 1000);
+  }, [target]);
+
+  useInterval(computeTimeleft, 1000);
+  useEffect(computeTimeleft, [computeTimeleft]);
 
   return (
     <span

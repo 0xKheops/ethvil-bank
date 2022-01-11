@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export const useEvilBankBids = (gameId: BigNumber, key?: string) => {
   const evilBank = useEvilBankContract(key);
 
-  const { account } = useWeb3React();
+  const { account } = useWeb3React<Web3Provider>();
   const { chainId } = useWeb3React<Web3Provider>(key);
   const { data, error, mutate } = useSWR(
     gameId ? `bids-${chainId}-${gameId?.toHexString()}` : null,
