@@ -5,7 +5,7 @@ This is a portfolio Dapp project, only meant to be deployed on Ethereum test net
 Front-end : Next.js, EthersJS, TailwindCSS, Storybook
 Back-end : Solidity smart contract (100% test coverage), Subgraph
 
-Application is deployed at : https://arnaultnouvel.github.io/ethvil-bank/
+Application is deployed at : https://0xkheops.github.io/ethvil-bank/
 
 ## Development environment
 
